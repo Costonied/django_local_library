@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% if perms.catalog.can_mark_returned %}
+<!-- {% csrf_token %} to ensure that our forms are resistant to CSRF attacks -->
+
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit" />    
+</form>
+
+{% else %}
+
+<hr>
+<p>You don't have permissions!</p>
+<hr>
+
+{% endif %}
+
+{% endblock %}
