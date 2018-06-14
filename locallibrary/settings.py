@@ -44,10 +44,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',         #Manages sessions across requests
+    'whitenoise.middleware.WhiteNoiseMiddleware',                   # project for serving of static assets directly from Gunicorn in production
+    'django.contrib.sessions.middleware.SessionMiddleware',         # Manages sessions across requests
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',      #Associates users with requests using sessions
+    'django.contrib.auth.middleware.AuthenticationMiddleware',      # Associates users with requests using sessions
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -120,6 +121,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
@@ -135,6 +140,20 @@ EMAIL_HOST_PASSWORD = 'NewMailPass!'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 465
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+# Optionally, you can reduce the size of the static files when they are served (this is more efficient):
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
+
 
 
 
