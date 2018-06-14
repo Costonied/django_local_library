@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '2dt@pcmma1)pg00lgu=&%qlduac2mg
 # DEBUG = True
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = ['agile-refuge-24026.herokuapp.com']
+ALLOWED_HOSTS = ['agile-refuge-24026.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
